@@ -1,0 +1,1 @@
+{{ html ('./weex/weex.js') }}

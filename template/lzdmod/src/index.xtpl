@@ -1,0 +1,9 @@
+{{! h5 dispatch for rax h5 && zepto h5}}
+{{#if ($moduleMode === 'rax' || $http.url.query.wh_rax)}}
+<div class="<{%=dirName %}>" data-rax="true" data-mod-name="<{%=fileName %}>/weex/weex">
+  {{!vue-web is not SSR, don't change this if you don't have special requirements}}
+  {{{$utils.jsonToTextarea(this, "rax-comp-data")}}}
+</div>
+{{else}}
+{{include("./m/index")}}
+{{/if}}

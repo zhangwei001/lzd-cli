@@ -1,0 +1,81 @@
+{{#if (!$icms)}}
+{{ set($icms = {}) }}
+{{/if}}
+
+{{#if ($system)}}
+{{ set ($system.env = 'dev') }}
+{{else}}
+{{ set ($system = {env: 'dev'}) }}
+{{/if}}
+
+{{ set (region = $http.originalUrl.query.region) }}
+
+{{#if(region === 'my')}}
+  {{set($http.language='ms')}}
+  {{set($icms['page-default-language']='ms')}}
+  {{set($icms['page-languages']=['ms','en'])}}
+  {{set($icms['regional']="MY")}}
+
+{{elseif(region === 'id')}}
+
+{{set($http.language='id')}}
+{{set($icms['page-default-language']='id')}}
+{{set($icms['regional']="ID")}}
+
+{{elseif(region === 'th')}}
+
+{{set($http.language='th')}}
+{{set($icms['page-default-language']='th')}}
+{{set($icms['regional']="TH")}}
+
+{{elseif(region === 'vn')}}
+
+{{set($http.language='vi')}}
+{{set($icms['page-default-language']='vi')}}
+{{set($icms['regional']="VN")}}
+
+{{elseif(region === 'ph')}}
+
+{{set($http.language='en')}}
+{{set($icms['page-default-language']='en')}}
+{{set($icms['regional']="PH")}}
+
+{{elseif(region === 'sg' || !region)}}
+
+{{set($http.language='en')}}
+{{set($icms['page-default-language']='en')}}
+{{set($icms['regional']="SG")}}
+
+{{/if}}
+
+{{set ($solution = {
+  "generalConfig": {
+    "regional": $icms['regional'] || "SG",
+    "detectLanguage" : $icms['page-default-language'] || "sg",
+    "timeZone": "Asia/Bangkok",
+    "retcodePid": "hyey0hz67v@9508762ae7ce8cf"
+  },
+  "extraConfig": {
+    "flexibleMap": [
+      {
+        "key": "headerSection",
+        "value": "section://i/my/site-nav-content-pc",
+        "valueType": "string"
+      },
+      {
+        "key": "footerSection",
+        "value": "section://i/my/homepage-footer",
+        "valueType": "string"
+      }
+    ]
+  },
+  "bizConfig":{
+    "headAndFootCnf":{
+      "needHeader" : true
+    }
+  },
+  "solutionConfig": {
+    "module": "@ali/lzdmod-lazada5",
+    "version": "5.2.11"
+  }
+})}}

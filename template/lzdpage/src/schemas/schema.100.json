@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "title": "products data",
+  "properties": {
+    "items": {
+      "type": "array",
+      "title": "products data",
+      "items": {
+        "type": "object",
+        "title": "Single product information",
+        "properties": {
+          "itemImg": {
+            "type": "string",
+            "title": "product picture",
+            "format": "CDN_PIC"
+          },
+          "itemUrl": {
+            "type": "string",
+            "title": "product url",
+            "format": "URL"
+          }
+        }
+      }
+    }
+  }
+}

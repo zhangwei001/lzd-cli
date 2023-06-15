@@ -1,0 +1,4 @@
+{{set ($weexTheme = {
+    size: '20px',
+    color: '#ff0000'
+})}}

@@ -1,0 +1,27 @@
+
+<script type="text/data" class="J-dynamic-data">
+{{set($result=$utils.JSON.stringify(mockData))~}}
+{{{~$result}}}
+</script>
+<script type="text/tmpl" class="J-tmpl">
+{{%
+  {{#each(result)}}
+<a class="<{%=dirName %}>-item flex-item" href="{{itemUrl}}" {{#if (trackInfo||utLogMap)}}trackInfo="{{trackInfo}}" utLogMap="{{utLogMap}}" exp-tracking="platformAlgo"{{/if}}>
+    <div class="thumb-bx">
+    <img class="thumb" src="//laz-img-cdn.alicdn.com/tfs/TB1wkpOf5qAXuNjy1XdXXaYcVXa-720-720.png_200x200.jpg" data-ks-lazyload="{{itemImg}}" alt="">
+    </div>
+
+    {{#if(root.terminal === "mobile")}}
+        {{set (tempTitle = "Mobile")}}
+    {{else}}
+        {{set (tempTitle = "PC")}}
+    {{/if}}
+    <h3 class="<{%=dirName %}>-item-title two-line-clamp">
+       {{root.$i18n('hello, my name is %s', '<{%=dirName %}>')}}
+       {{tempTitle}}
+       {{itemTitle}}
+    </h3>
+</a>
+  {{/each}}
+%}}
+</script>

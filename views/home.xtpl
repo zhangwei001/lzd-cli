@@ -1,0 +1,326 @@
+<html>
+  <head>
+    <title>Debug Platform</title>
+    <meta charset="utf-8" />
+    <link href="//g.alicdn.com/mqn/cdn/0.0.9/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="//g.alicdn.com/sj/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//g.alicdn.com/mqn/cdn/0.0.10/bootstrap.min.js"></script>
+    <script src="//g.alicdn.com/mqn/cdn/0.0.10/jquery.qrcode.min.js"></script>
+    <style>
+      body {
+            font: 12px/1.5 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+            color: #333;
+          overflow-x: hidden;
+        }
+        body,
+        .navbar-fixed-top,
+        .navbar-fixed-bottom {
+            min-width: 970px;
+        }
+        .btn-segcontrol {
+            width: 360px;
+            margin: 10px 0 10px;
+        }
+        .btn-segcontrol .btn-default {
+            color: #1170bc;
+            border-color: #3089DC;
+            outline: none;
+        }
+        .btn-segcontrol .btn-default:focus,
+        .btn-segcontrol .btn-default.active:focus {
+            outline: none;
+        }
+        .btn-segcontrol .btn-default:hover {
+            background-color: #f1f1f1;
+        }
+        .btn-segcontrol .btn-default.active,
+        .btn-segcontrol .btn-default:active {
+            background-color: #1170bc;
+            color: #ffffff;
+        }
+        .link {
+            font-size: 16px;
+            padding-right: 20px;
+            background: url(//img.alicdn.com/tfs/TB1kAOHQVXXXXaWXFXXXXXXXXXX-32-32.png) no-repeat 100% 60%;
+            background-size: 12px;
+        }
+        .container {
+            width: 970px;
+            max-width: none !important;
+        }
+        .title {
+            margin: 10px 40px 10px 0;
+            float: left;
+            color: #1170bc;
+        }
+        .J_qr {
+            margin-left: 20px;
+            text-decoration: none;
+            font-size:16px;
+        }
+        .qr-image {
+            width: 150px;
+            height: 150px;
+            display: block;
+            margin-top:10px;
+        }
+        .debugger-iframe {
+            height: 356px;
+            border: none;
+            overflow: scroll;
+            overflow-y: hidden;
+            margin-top:20px;
+        }
+        .debugger-iframe::scrollbar {}
+        .device-list {
+            margin: 0px -40px;
+            padding-bottom: 10px;
+        }
+        .warnning {
+          display: inline-block;
+          border: 2px solid #eea236;
+          border-radius: 5px;
+          padding: 3px;
+          background: #f0ad4e;
+          color: #fff;
+          pointer-events: initial;
+          margin-left: 40px;
+        }
+        .entry-label{
+          font-size: 20px;
+          display: inline-block;
+          color: #fff;
+          background: #3089dc;
+          width: 50px;
+          height: 50px;
+          border-radius: 100%;
+          text-align: center;
+          line-height: 50px;
+          font-weight: bold;
+        }
+        .debug-zone{
+          padding-top:20px;
+          background-color: #f8f8f8;
+        }
+        .left-debug-zone{
+        }
+        .intro{
+          margin-top:10px;
+          margin-left:25px;
+        }
+        .action_intro{
+          font-size:14px;
+        }
+        .debug-tab{
+          margin-top:20px;
+          padding-bottom:10px;
+        }
+        .each-tab{
+          margin-left:100px;
+        }
+        .right-zone{
+          height:100%;
+          border-left:1px dashed #1170bc;
+        }
+        .attent-zone{
+          background-color: #fff1e8;
+          border-color: transparent;
+          box-shadow: none;
+          border-style: solid;
+          width:360px;
+          right: 0px;
+          top:0;
+          position: absolute;
+          padding:15px;
+        }
+        .attention{
+          font-size:16px;
+          color:red;
+          text-align:center;
+          font-weight:bold;
+        }
+        .attention-message{
+          font-size:14px;
+            margin-left: -10px;
+        }
+        .attention-message li{margin-bottom: 5px;}
+        .site-label {
+          position: absolute;
+          right: 125px;
+          top: 0;
+          font-size: 20px;
+          line-height: 27px;
+        }
+        .selector {
+          display: inline-block;
+          height: 30px;
+          position: absolute;
+          right: 20px;
+          top: 0;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="nav">
+        <div class="container">
+            <div class="row row-single">
+                <h2 class="title">Debug Platform</h2>
+                <div class="btn-segcontrol btn-group btn-group-justified" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-control btn-default btn-control-single" data-type="single">ICMS DEBUG</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="row debug-zone">
+            <div class="col-xs-9 left-debug-zone">
+              <div class="col-xs-offset-1 col-xs-6 debug-tab" style="padding-left: 0;position: relative">
+                <label class="site-label">site:</label>
+                <select name="" id="region-selector" class="selector">
+                  <option value="sg">Singapore</option>
+                  <option value="id">Indonesia</option>
+                  <option value="th">Thailand</option>
+                  <option value="ph">Philippines</option>
+                  <option value="vn">Vietnam</option>
+                  <option value="my">Malaysia</option>
+                </select>
+              </div>
+                <div class="row">
+                    <div class="col-xs-offset-1 col-xs-6 debug-tab">
+                        <div class="entry-label">PC</div>
+                        <strong><a id="pc_address" class="J_qr" href="//{{host}}/pc" target="_blank">{{name}}/pc</a></strong>
+                        <div class="row each-tab">
+                            <div class="col-xs-12">
+                                <div class="action_intro">Click Link Above To Preview</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="attent-zone">
+                        <div class="attention">Attention</div>
+                        <ol class="attention-message">
+                        <li><a href="https://lark.alipay.com/ims/gr5pqw/hng0s3" target="_blank"> Pleast check browser proxy,otherwise resources can not load</a></li>
+                        <li>Web proxy server <a href="http://127.0.0.1:8002" target="_blank">http://127.0.0.1:8002</a></li>
+                        </ol>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-offset-1 debug-tab">
+                    <div class="entry-label">H5</div>
+                    <strong><a id="h5_address" class="J_qr" href="//{{host}}/mobile?wh_rax=true" target="_blank">{{name}}/mobile</a></strong>
+                    <div class="row each-tab">
+                        <div class="col-xs-5">
+                            <div class="action_intro">Scan Qrcode To Preview</div>
+                            <div class="action_intro">Delete `wh_rax=true` to develop zepto version and enable site select</div>
+                            <div class="qr-image h5-qrcode"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-offset-1 debug-tab">
+                    <div class="entry-label">weex</div>
+                    <strong><a id="weex_address" class="J_qr" href="//{{host}}/weex-native" target="_blank">{{name}}/weex-native/</a></strong>
+                    <div class="row each-tab">
+                        <div class="col-xs-5">
+                            <div class="action_intro">Step1 : Scan Qrcode To Connect With App Debugger</div>
+                            <div class="qr-image weex-debugger"></div>
+                        </div>
+                        <div class="col-xs-5 col-xs-offset-2">
+                            <div class="action_intro">Step2 : Scan Qrcode To Get Your Code from DevServer</div>
+                            <div class="qr-image weex-bundle"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <iframe scrolling="auto" class="debugger-iframe col-xs-12"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-3 right-zone">
+                <div class="row">
+                    <div class="col-xs-11 col-xs-offset-1">
+                        <h3>Document</h3>
+                        <p><a class="link" target="_blank" href="https://lark.alipay.com/ims/gr5pqw">icms develop document</a></p>
+                        <p><a class="link" target="_blank" href="http://nuke.taobao.org">nuke document</a></p>
+                        <p><a class="link" target="_blank" href="http://rax.alibaba-inc.com">rax document</a></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-11 col-xs-offset-1">
+                        <h3>Download</h3>
+                        <p>Todo:please use taobao/TM  APP instead</p>
+                    </div>
+                </div>
+                <!--<div class="row">-->
+                    <!--<div class="col-xs-11 col-xs-offset-1">-->
+                        <!--<h3>Common Questions</h3>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="row">
+                    <div class="col-xs-11 col-xs-offset-1">
+                        <h3>Technical Support</h3>
+                        <p>contact: <a href="dingtalk://dingtalkclient/action/sendmsg?dingtalk_id=13528822552">宇果(Hugo)</a> 、<a href="dingtalk://dingtalkclient/action/sendmsg?dingtalk_id=15625102931">天牙(Malaysia)</a></p>
+                        <p>Scan Qrcode With DingTak To Join The Q&A Group</p>
+                        <img src="//img.alicdn.com/tfs/TB1gT6qkPihSKJjy0FiXXcuiFXa-620-753.png" width="250px"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+  <script>
+    (function () {
+      $('#region-selector').on('change', function() {
+
+        var host = '{{host}}'
+        var region = this.value
+        window.region = region
+        $("#pc_address").attr('href', "//" + host + '/pc?region=' + region)
+        $("#h5_address").attr('href', "//" + host + '/mobile?wh_rax=true&region=' + region)
+        $("#weex_address").attr('href', "//" + host + '/weex-native&region=' + region)
+        init()
+      })
+    })();
+   function init() {
+      var activeTab = 'single';
+      var weexPort = 8088;
+      var hostname = '{{host}}'.split(':')[0];
+
+      initScreen(activeTab,weexPort,hostname);
+   }
+   init()
+  function initScreen(activeTab,weexPort,hostname){
+      createQRCode(weexPort,hostname);
+      // $('.opts').css('display', 'none');
+      $(".options-" + activeTab).css('display', 'block');
+      $('.btn-control-' + activeTab).addClass('active');
+      $('.debugger-iframe')[0].src = 'http://' + location.hostname +':'+ weexPort ;
+  }
+
+   function createQRCode(weexPort,hostname){
+      var debug_server = 'http://' + hostname +':'+ weexPort+'/devtool_fake.html?_wx_devtool=ws://' + hostname + ':' + weexPort +'/debugProxy/native';
+      console.log(debug_server);
+      setImage($('.weex-debugger')[0], debug_server);
+      var h5_qrcode =$('#h5_address').attr('href');
+      setImage($('.h5-qrcode')[0],location.protocol + h5_qrcode);
+      var weex_bundle = getUrl($('#weex_address').attr('href'));
+      setImage($('.weex-bundle')[0],weex_bundle);
+   }
+    // 二维码渲染服务
+    function setImage(imgDom, url) {
+        console.log(url);
+        if (!imgDom) return;
+        if (url) {
+            $(imgDom).empty();
+            $(imgDom).qrcode({ width: 150, height: 150, text: url });
+        } else {
+        }
+    }
+
+    function getUrl(subPath){
+      return 'http://h5.m.taobao.com/qn/mobile/weex-tpl.html?_wx_tpl=http:'+subPath;
+    }
+
+  </script>
+</html>
+

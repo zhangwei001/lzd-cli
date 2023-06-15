@@ -1,0 +1,415 @@
+{
+  "name": "@ali/lzd-toolkit-icms",
+  "version": "1.2.2",
+  "description": "ICMS module and page development toolkit",
+  "main": "index.js",
+  "fieOption": {
+    "thumb": "http://img3.tbcdn.cn/5476e8b07b923/TB15lxxPXXXXXXUaXXXXXXXXXXX",
+    "type": "toolkit",
+    "update": false,
+    "moduleName": "@ali/lzd-toolkit-icms",
+    "chName": "ICMS development toolkit"
+  },
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint --fix ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.alibaba-inc.com:lzd-cli/lzd-toolkit-icms.git"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npm.alibaba-inc.com"
+  },
+  "author": {
+    "name": "宇果",
+    "email": "yuguo.hyg@alibaba-inc.com"
+  },
+  "maintainers": [
+    {
+      "name": "宇果",
+      "email": "yuguo.hyg@alibaba-inc.com"
+    }
+  ],
+  "dependencies": {
+    "@ali/ci-log": "*",
+    "@ali/eslint-plugin-comments": "^1.0.0",
+    "@ali/eslint-plugin-nuke": "^1.0.x",
+    "@ali/eslint-plugin-tbfed": "^1.1.x",
+    "@ali/gulp-mui-i18n": "^2.0.5",
+    "@ali/gulp-xtpl": "^1.2.7",
+    "@ali/icms-schema-editor": "^1.1.5",
+    "@ali/mui-webpack-plugin": "^0.0.12",
+    "@ali/parse-dep-weexunify-fake": "^1.0.14",
+    "@ali/stylelint-config-standard": "^1.0.6",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "*",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-rax": "^0.4.20",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-runtime": "^6.11.6",
+    "chalk": "^1.1.3",
+    "co-request": "^1.0.0",
+    "co-sleep": "^0.0.1",
+    "colors": "^1.1.2",
+    "cross-spawn": "^5.1.0",
+    "debug": "^2.2.0",
+    "del": "^3.0.0",
+    "eslint": "^4.1.1",
+    "eslint-config-ali": "^2.0.0",
+    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-react": "^7.1.0",
+    "fallback-port": "^0.1.7",
+    "fast-sass-loader": "^1.3.0",
+    "fie-api": "^3.0.4",
+    "fie-git": "^3.1.2",
+    "fs-extra": "^4.0.2",
+    "globby": "^6.1.0",
+    "gulp": "gulpjs/gulp.git#6d71a658c61edb3090221579d8f97dbe086ba2ed",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-babel": "^7.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-less": "^3.3.2",
+    "gulp-plumber": "^1.1.0",
+    "gulp-runner": "^1.1.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-seed": "^1.1.7",
+    "inquirer": "^3.3.0",
+    "less-loader": "^4.0.5",
+    "less-plugin-sass2less": "^1.1.0",
+    "node-sass": "^4.5.3",
+    "open": "0.0.5",
+    "os": "^0.1.1",
+    "prettier": "1.9.2",
+    "prettier-eslint": "^8.7.0",
+    "prettier-eslint-cli": "^4.7.0",
+    "semver": "^5.4.1",
+    "shelljs": "^0.7.8",
+    "stylelint": "^8.2.0",
+    "stylelint-config-prettier": "^2.0.0",
+    "stylesheet-loader": "^0.4.20",
+    "tapc-plugin-preview": "^0.2.6",
+    "underscore": "^1.8.3",
+    "vinyl-named": "^1.1.0",
+    "webpack": "^4.20.2",
+    "webpack-stream": "^5.1.1",
+    "weex-nuke-devtool": "^0.1.0",
+    "yargs": "^9.0.1"
+  },
+  "devDependencies": {},
+  "changeLog": [
+    {
+      "version": "1.2.2",
+      "log": [
+        "fix: Seed contains the configuration of weex"
+      ]
+    },
+    {
+      "version": "1.2.1",
+      "log": [
+        "fix: The code is not being compressed for gulp"
+      ]
+    },
+    {
+      "version": "1.2.0",
+      "log": [
+        "break: change js & seed build type to webpack 4",
+        "feat: support import npm package for icms",
+        "refactor: remove src/ directory files: i18n.js/i18n-native.js/seed.js/seed.json/weex.js",
+        "refactor: Optimize the problem of abnormal exit after encountering an error",
+        "fix: weex page can't get i18n language problem"
+      ]
+    },
+    {
+      "version": "1.1.24",
+      "log": [
+        "feat: change wormhole preview service to pre-wormholepreview-ims.alibaba-inc.com"
+      ]
+    },
+    {
+      "version": "1.1.23",
+      "log": [
+        "feat: Change lzdmod template, add dynamic render method",
+        "feat: Added ' $ lzd add ' command to add icms module to package.json",
+        "feat: Added 6 country site selection, can test i18n and mtop"
+      ]
+    },
+    {
+      "version": "1.1.22",
+      "log": [
+        "feat: set i18n to options"
+      ]
+    },
+    {
+      "version": "1.1.21",
+      "log": [
+        "fix: copy seed.json to build bug"
+      ]
+    },
+    {
+      "version": "1.1.20",
+      "log": [
+        "fix: set async to sync"
+      ]
+    },
+    {
+      "version": "1.1.19",
+      "log": [
+        "fix: set default group to tm"
+      ]
+    },
+    {
+      "version": "1.1.18",
+      "log": [
+        "feat: add feloader group option",
+        "fix: change lzdpage solution to new"
+      ]
+    },
+    {
+      "version": "1.1.17",
+      "log": [
+        "fix: msite $metaDesktop change to $meta"
+      ]
+    },
+    {
+      "version": "1.1.16",
+      "log": [
+        "fix: create Style template modify",
+        "feat: add editorconfig"
+      ]
+    },
+    {
+      "version": "1.1.15",
+      "log": [
+        "fix: git.branch not pass cwd vars, can't local build"
+      ]
+    },
+    {
+      "version": "1.1.14",
+      "log": [
+        "fix: when lzd build sync package version"
+      ]
+    },
+    {
+      "version": "1.1.13",
+      "log": [
+        "fix: the problem that local cannot get online data",
+        "fix: xtpl not watch problem"
+      ]
+    },
+    {
+      "version": "1.1.12",
+      "log": [
+        "fix: watching *-tpl.xtpl file"
+      ]
+    },
+    {
+      "version": "1.1.11",
+      "log": [
+        "feat: remove service worker & theme build",
+        "feat: add xtemplate render for web"
+      ]
+    },
+    {
+      "version": "1.1.10",
+      "log": [
+        "feat: remove style in warp div"
+      ]
+    },
+    {
+      "version": "1.1.9",
+      "log": [
+        "feat: add --create to lzd schema to create schema based on mock data automatically"
+      ]
+    },
+    {
+      "version": "1.1.8",
+      "log": [
+        "feat: add prettier support",
+        "fix: if pre-commit run error, will kill git commit command"
+      ]
+    },
+    {
+      "version": "1.1.7",
+      "log": [
+        "feat: add eslint support",
+        "feat: add $ lzd add --eslint commond",
+        "fix: lzd start code changes abnormal exit after the problem"
+      ]
+    },
+    {
+      "version": "1.1.6",
+      "log": [
+        "fix: 修复gulp构建出错的bug"
+      ]
+    },
+    {
+      "version": "1.1.5",
+      "log": [
+        "feat: modiyf theme",
+        "1. 去除demo中调顶的引入",
+        "2. 去除原有版本demo中theme的引入",
+        "3. 统一schema换肤的规范",
+        "4. 添加换肤嵌入方式"
+      ]
+    },
+    {
+      "version": "1.1.4",
+      "log": [
+        "feat: 去除zebra solution",
+        "feat: 添加源码页面solution嵌入方式",
+        "feat: 添加默认换肤代码"
+      ]
+    },
+    {
+      "version": "1.1.3",
+      "log": [
+        "feat: service worker 默认为关闭"
+      ]
+    },
+    {
+      "version": "1.1.2",
+      "log": [
+        "feat: 源码页面新增service worker支持",
+        "feat: 升级preview"
+      ]
+    },
+    {
+      "version": "1.1.1",
+      "log": [
+        "feat: 新增system.env=dev 用于本地开发"
+      ]
+    },
+    {
+      "version": "1.1.0",
+      "log": [
+        "feat: 新增watch功能"
+      ]
+    },
+    {
+      "version": "1.0.15",
+      "log": [
+        "fix: 重命名i18n-native，模板中默认include i18n.xtpl，修复i1n8.xtpl copy到build目录的时机不对问题",
+        "feat: 新增全局自动代理功能"
+      ]
+    },
+    {
+      "version": "1.0.14",
+      "log": [
+        "feat: 优化package.json版本号问题",
+        "feat: 修改mock为page"
+      ]
+    },
+    {
+      "version": "1.0.13",
+      "log": [
+        "feat: 优化package.json版本号问题",
+        "feat: 修改mock为page"
+      ]
+    },
+    {
+      "version": "1.0.12",
+      "log": [
+        "fix: 修复native调用 windvane问题"
+      ]
+    },
+    {
+      "version": "1.0.11",
+      "log": [
+        "fix: 修复native调试问题",
+        "fix: 修复mock数据读取不到问题"
+      ]
+    },
+    {
+      "version": "1.0.10",
+      "log": [
+        "fix: 修复lzdpage没有build到json文件的问题"
+      ]
+    },
+    {
+      "version": "1.0.9",
+      "log": [
+        "fix: 新增xtpl watch功能"
+      ]
+    },
+    {
+      "version": "1.0.7",
+      "log": [
+        "fix: 修复weex-native bug"
+      ]
+    },
+    {
+      "version": "1.0.6",
+      "log": [
+        "feat: 优化mobile的结构"
+      ]
+    },
+    {
+      "version": "1.0.5",
+      "log": [
+        "fix: weex-native run error"
+      ]
+    },
+    {
+      "version": "1.0.4",
+      "log": [
+        "feat: add --solution pre when start",
+        "feat: add weex = true for lzd.config.js"
+      ]
+    },
+    {
+      "version": "1.0.3",
+      "log": [
+        "fix: fiexd page run error bug"
+      ]
+    },
+    {
+      "version": "1.0.1",
+      "log": [
+        "feat: 新增npmigiore"
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "log": [
+        "feat: mui5.0规范新设计"
+      ]
+    },
+    {
+      "version": "0.2.1",
+      "log": [
+        "fix: 修复源码页面无法自运行的问题"
+      ]
+    },
+    {
+      "version": "0.2.0",
+      "log": [
+        "feat: mod模块完成",
+        "feat: 调整page目录结构"
+      ]
+    },
+    {
+      "version": "0.1.1",
+      "log": [
+        "feat: 新增初始化模板功能"
+      ]
+    },
+    {
+      "version": "0.1.0",
+      "log": [
+        "feat: 新增初始化模板功能"
+      ]
+    },
+    {
+      "version": "0.1.2",
+      "log": [
+        "feat: add rax-h5 mod setup"
+      ]
+    }
+  ],
+  "keyword": [
+    "icms"
+  ]
+}

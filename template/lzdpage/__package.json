@@ -1,0 +1,53 @@
+{
+  "name": "<{%=fileName%}>",
+  "description": "<{%=fileName%}>",
+  "version": "5.0.0",
+  "keywords": ["icms", "mui5.0", "lzdpage"],
+  "main": "lib/index.js",
+  "group": "@ali",
+  "author": "",
+  "template": {
+    "type": "page",
+    "version": "<{%=toolkitVersion %}>"
+  },
+  "feDependencies": {
+    "@ali/mui-zepto": "5.0.x",
+    "@ali/mui-i18n": "5.0.x",
+    "@ali/mui-weex-utils": "5.0.x",
+    "@ali/lzdmod-weex-nuke": "5.0.x",
+    "@ali/mui-xtemplate" : "5.0.x"
+  },
+  "sync": false,
+  "syncSource": "",
+  "layout": {
+    "schemas": [
+      {
+        "title": "products data",
+        "jsonSchemaVersion": "v2",
+        "moduleId": "100"
+      }
+    ],
+    "modules": []
+  },
+  "layout-pc": {
+    "schemas": [
+      {
+        "title": "module config data",
+        "jsonSchemaVersion": "v2",
+        "moduleId": "101"
+      }
+    ],
+    "modules": []
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.alibaba-inc.com:<{%=group %}>/<{%=dirName %}>.git"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npm.alibaba-inc.com"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">4.0.0"
+  }
+}

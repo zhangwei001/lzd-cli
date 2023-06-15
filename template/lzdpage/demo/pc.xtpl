@@ -1,0 +1,2 @@
+{{ include('./solutionCfg.xtpl') }}
+{{ include ("mod://<{%=fileName %}>/index-pc.xtpl", $data, $root=$data) }}

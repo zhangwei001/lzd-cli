@@ -1,0 +1,22 @@
+<div id="J_theme">
+    <div id="theme-controller" data-device="{{device}}">
+        <div id="theme-button" title="Module theme settings"></div>
+        <div class="hidden" id="theme-panel"><h3>Module theme settings</h3></div>
+    </div>
+
+    <div id="J_theme_data" style="display: none">
+        <style id="J_zebraTheme"></style>
+
+        <textarea id="J-less" data-device="{{device}}" hidden>
+{{#if (device === '-pc') }}
+    {{html("./theme-pc.less")}}
+{{else}}
+    {{html("./theme-pc.less")}}
+{{/if}}
+</textarea>
+
+        <textarea id="J-package" hidden>{{html("./package.json")}}</textarea>
+        <link rel="stylesheet"  href="//g.alicdn.com/alife/lzd-less-theme/??theme.css">
+        <script type="text/javascript" src="//g.alicdn.com/alife/lzd-less-theme/??less.min.js,theme.js"></script>
+    </div>
+</div>

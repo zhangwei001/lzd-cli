@@ -1,0 +1,5 @@
+{
+  "moduleConfig": {
+    "name": "<{%=fileName %}>"
+  }
+}

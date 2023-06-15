@@ -1,0 +1,178 @@
+{{$http.headers.set("Content-Type", "application/x-javascript; charset=utf-8")}}
+
+if (!CacheStorage.prototype.match) {
+  CacheStorage.prototype.match = function (request) {
+    var matchRequestInCache = function (key) {
+      return caches.open(key).then(function (cache) {
+        return cache.match(request);
+      });
+    };
+
+    var matchRequestInCaches = function (keys) {
+      return matchRequestInCache(keys.shift()).then(function (res) {
+        if (res) {
+          return res;
+        } else {
+          if (keys.length) {
+            return matchRequestInCaches(keys);
+          }
+        }
+      })
+    };
+
+    if (!(request instanceof Request)) {
+      request = new Request(request);
+    }
+
+    return caches.keys().then(function (keys) {
+      return matchRequestInCaches(keys);
+    });
+  }
+}
+
+if (!Cache.prototype.addAll) {
+  Cache.prototype.addAll = function (requests) {
+    var cache = this;
+    return Promise.all(requests.map(function (request) {
+      if (!(request instanceof Request)) {
+        request = new Request(request);
+      }
+      return fetch(request.clone()).then(function (res) {
+        if (res && res.status === 200) {
+          return cache.put(request, res);
+        }
+      });
+    }));
+  }
+  Cache.prototype.add = function (request) {
+    return this.addAll([request]);
+  }
+}
+
+var CACHE_NAME = '<{%=name %}>/<{%=version %}>';
+var IMAGE_CACHE_NAME = CACHE_NAME + '/img';
+var IMAGE_CACHE_SIZE = 50;
+{{#if($system.env === 'dev')}}
+var CURRENT_URL = 'http://127.0.0.1:<{%=port %}>';
+{{else}}
+var CURRENT_URL = '{{$http.originalUrl.protocol}}://{{$http.originalUrl.hostname}}{{$http.originalUrl.pathname}}';
+{{/if}}
+var urlsToCache = [
+  // CURRENT_URL
+];
+
+
+this.addEventListener('install', function (event) {
+
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(function (cache) {
+        return cache.addAll(urlsToCache);
+      })
+  );
+});
+
+// 根据版本号进行缓存，及时清理旧版本资源
+this.addEventListener('activate', function (event) {
+  event.waitUntil(
+    caches.keys().then(function (cacheNames) {
+      return Promise.all(
+        cacheNames.map(function (cacheName) {
+          if (cacheName !== CACHE_NAME && cacheName !== IMAGE_CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
+
+// TODO delete 放在全局是否有问题？
+var deletingImgs = [];
+this.addEventListener('fetch', function (event) {
+  // 试验期间，仅缓存我们能够控制的前端资源，包含 lzdmod/lzdpage/mui/nuke/code 几个Group
+  var isAssets = /^https?:\/\/(g\.alicdn\.com|g-assets\.daily\.taobao\.net|laz-g-cdn\.alicdn\.com)\/(\?\?)?(lzdmod|lzdpage|mui|nuke)\/(\?\?)?[\w_-]+\/\d+\.\d+\.\d+\/.+/.test(event.request.url);
+
+
+  var isCurrentPage = function (url) {
+    var urlObj = url ? new URL(url) : {};
+    return (urlObj.origin + urlObj.pathname).indexOf(CURRENT_URL) === 0;
+  };
+
+  //判断是否是来自当前页面的前端资源文件
+  //有些来自chrome插件或者iframe进来的资源不做处理
+  var isAssetsFromCurrent = isAssets && isCurrentPage(event.request.referrer);
+
+  //判断是否来自当前页面的图片
+  var isImgFromFresh = !isAssets && function () {
+    var isImg = event.request.url.indexOf('laz-img-cdn.alicdn.com') !== -1 || event.request.url.indexOf('img.alicdn.com') !== -1;
+    return isImg && isCurrentPage(event.request.referrer);
+  }();
+
+
+  //针对前端资源的处理及图片进行处理
+  if (isAssetsFromCurrent || isImgFromFresh) {
+    event.respondWith(
+      caches.match(event.request).then(function (response) {
+        if (response) {
+          response.clone().text().then(function (res) {
+            console.log('%s response from cache: ', event.request.url, res.length);
+          });
+          return response;
+        }
+
+        return fetch(event.request.url).then(function (response) {
+          //加载成功
+          if (response && response.status === 200) {
+
+            // 如果成功，该 response 一是要拿给浏览器渲染，二是要进行缓存。
+            // 由于 caches.put 使用的是文件的响应流，一旦使用，
+            // 那么返回的 response 就无法访问造成失败，所以，这里需要复制一份。
+            var responseToCache = response.clone();
+            // 前端资源加到CACHE_NAME里去缓存
+            if (isAssetsFromCurrent) {
+              caches.open(CACHE_NAME).then(function (cache) {
+                cache.put(event.request, responseToCache);
+              });
+            } else {
+              // 图片资源放到另外的命名空间里
+              caches.open(IMAGE_CACHE_NAME).then(function (cache) {
+
+                cache.keys().then(function (keys) {
+                  // 由于页面的图片太多，这里限制了最多只能加载50个图片
+                  // 这里过滤出可以正常缓存的图片
+                  var normalItems = keys.filter(function (item) {
+                    return deletingImgs.indexOf(item.url) === -1;
+                  });
+                  //console.log('keys length is %d, normal keys length is %d', keys.length, normalItems.length);
+                  var imgsNeedDelCount = normalItems.length - IMAGE_CACHE_SIZE;
+                  var processor = [];
+                  if (imgsNeedDelCount) {
+                    for (var i = 0, j = imgsNeedDelCount; i < j; i++) {
+                      (function (index) {
+                        var firstNormalItem = normalItems[index];
+                        deletingImgs.push(firstNormalItem.url);
+                        processor.push(cache.delete(firstNormalItem).then(function () {
+                          deletingImgs = deletingImgs.filter(function (item) {
+                            return item !== firstNormalItem.url;
+                          })
+                        }));
+                      })(i)
+                    }
+                  }
+                  return Promise.all(processor);
+                }).then(function () {
+                  cache.put(event.request, responseToCache);
+                });
+              });
+            }
+          }
+
+          return response;
+        }).catch(function (ex) {
+          console.warn('request %s fail', event.request.url, ex);
+        })
+      })
+    )
+  }
+});

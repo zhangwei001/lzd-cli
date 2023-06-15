@@ -1,0 +1,25 @@
+{{#if( ($system.env !== 'dev' && $http.originalUrl.protocol === 'https')  || $system.env === 'dev')}}
+<script>
+  (function (win) {
+    var rAF = win.requestAnimationFrame || function( callback ){
+      win.setTimeout(callback, 1000 / 60);
+    };
+    if ('serviceWorker' in navigator) {
+      win.addEventListener('load', function() {
+        rAF(function(){
+          var currentPage = '//' + win.location.host + win.location.pathname;
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            if(registrations && registrations.length){
+              for(var registration in registrations) {
+                if(registrations[registration].scope === currentPage){
+                  registrations[registration].unregister()
+                }
+              }
+            }
+          })
+        });
+      });
+    }
+  })(window);
+</script>
+{{/if}}

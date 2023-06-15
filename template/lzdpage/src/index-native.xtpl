@@ -1,0 +1,3 @@
+// { "framework": "Rax" }
+{{ html ('./weex/weex.js') }}
+{{ include('./weex/core.xtpl')}}

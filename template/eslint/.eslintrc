@@ -1,0 +1,99 @@
+{
+  "extends": "eslint-config-ali/react",
+  "globals": {
+    "it": true,
+    "describe": true,
+    "require": true,
+    "process": true,
+    "before": true,
+    "after": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "define": true,
+    "$": true,
+    "goldlog": true,
+    "WindVane": true,
+    "__weex_data__": true,
+    "__weex_options__": true,
+    "__weex_downgrade__": true,
+    "__weex_define__": true,
+    "__weex_require__": true,
+    "WXEnvironment": true
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "plugins": ["react", "@ali/tbfed", "@ali/nuke","@ali/comments"],
+  "rules": {
+    "@ali/comments/comments-no-chinese" : "error",
+    "react/jsx-no-bind": [
+      1,
+      {
+        "ignoreRefs": false,
+        "allowArrowFunctions": true,
+        "allowBind": false
+      }
+    ],
+    "react/jsx-key": 1,
+    "react/no-array-index-key": 1,
+    "@ali/tbfed/no-base64": 1,
+    "@ali/tbfed/prefer-conditional": 1,
+    "@ali/tbfed/no-unused-dependence": [
+      1,
+      {
+        "ignorePatterns": [
+          {
+            "modulePattern": ".+",
+            "importPattern": ["^createElement$"]
+          }
+        ]
+      }
+    ],
+    "@ali/tbfed/member-blacklist": [
+      1,
+      "Collator",
+      "DateTimeFormat",
+      "NumberFormat",
+      "getCanonicalLocales",
+      "localeCompare",
+      "toLocaleString",
+      "toLocaleDateString",
+      "toLocaleTimeString"
+    ],
+    "@ali/nuke/no-unnecessary-view": [
+      1,
+      {
+        "packageName": "@ali/lzdmod-weex-nuke"
+      }
+    ],
+    "@ali/nuke/no-nested-text": [
+      1,
+      {
+        "packageName": "@ali/lzdmod-weex-nuke"
+      }
+    ],
+    "@ali/tbfed/prefer-map": 1,
+    "strict": "off",
+    "react/react-in-jsx-scope": "off",
+    "new-cap": "off",
+    "react/no-string-refs": "warn",
+    "react/no-find-dom-node": "warn",
+    "no-new": "warn",
+    "no-mixed-operators": "off",
+    "comma-dangle": ["error", "only-multiline"],
+    "function-paren-newline": ["error", "multiline"],
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": false,
+        "varsIgnorePattern": "createElement"
+      }
+    ],
+    "class-methods-use-this": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+  },
+  "parser": "babel-eslint"
+}

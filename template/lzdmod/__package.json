@@ -1,0 +1,38 @@
+{
+  "name": "<{%=fileName %}>",
+  "description": "",
+  "version": "5.0.0",
+  "keywords": [
+    "icms",
+    "lzdmod",
+    "mui5.0"
+  ],
+  "sideEffects": false,
+  "main": "lib/index.js",
+  "group": "@ali",
+  "template": {
+    "type": "mod",
+    "version": "<{%=toolkitVersion %}>"
+  },
+  "feDependencies": {
+    "@ali/mui-zepto": "5.0.x",
+    "@ali/mui-i18n": "5.0.x",
+    "@ali/mui-weex-utils": "5.0.x",
+    "@ali/lzdmod-weex-nuke": "5.0.x",
+    "@ali/lzdmod-act-style": "5.1.x",
+    "@ali/lzdmod-dynamic": "5.1.x",
+    "@ali/lzdmod-mtop-dynamic": "5.1.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.alibaba-inc.com:<{%=group %}>/<{%=dirName %}>.git"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npm.alibaba-inc.com"
+  },
+  "author": "<{%=author%}>",
+  "designer": "",
+  "engines": {
+    "node": ">4.0.0"
+  }
+}

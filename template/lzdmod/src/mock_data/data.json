@@ -1,0 +1,32 @@
+{
+  "test": {
+    "name": "<{%=dirName %}>"
+  },
+  "mockData": [
+    {
+      "itemImg": "https://my-live-02.slatic.net/original/8b600cf33ab02596c94ee97548f75d3f.jpg",
+      "itemTitle": "10 Slot Premium Quality PU Leather Watch jewellery Storage ",
+      "itemUrl": "//www.lazada.com.my/products/10-slot-premium-quality-pu-leather-watch-jewellery-storage-i199172886-s244954532.html?search=1&mp=1"
+    },
+    {
+      "itemImg": "https://my-live-02.slatic.net/original/8b600cf33ab02596c94ee97548f75d3f.jpg",
+      "itemTitle": "10 Slot Premium Quality PU Leather Watch jewellery Storage ",
+      "itemUrl": "//www.lazada.com.my/products/10-slot-premium-quality-pu-leather-watch-jewellery-storage-i199172886-s244954532.html?search=1&mp=1"
+    },
+    {
+      "itemImg": "https://my-live-02.slatic.net/original/8b600cf33ab02596c94ee97548f75d3f.jpg",
+      "itemTitle": "10 Slot Premium Quality PU Leather Watch jewellery Storage ",
+      "itemUrl": "//www.lazada.com.my/products/10-slot-premium-quality-pu-leather-watch-jewellery-storage-i199172886-s244954532.html?search=1&mp=1"
+    }
+  ],
+  "$meta": {
+    "bgColor": "#650404",
+    "bgImg": "https://laz-img-cdn.alicdn.com/tfs/TB1HtFgc5LaK1RjSZFxXXamPFXa-819-379.png",
+    "marginTop": "8px"
+  },
+  "$metaDesktop": {
+    "bgColor": "#650404",
+    "bgImg": "https://laz-img-cdn.alicdn.com/tfs/TB1HtFgc5LaK1RjSZFxXXamPFXa-819-379.png",
+    "marginTop": "10px"
+  }
+}

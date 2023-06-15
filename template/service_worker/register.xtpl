@@ -1,0 +1,38 @@
+{{#if( ($system.env !== 'dev' && $http.originalUrl.protocol === 'https')  || $system.env === 'dev')}}
+<script>
+  (function (win) {
+    var rAF = win.requestAnimationFrame || function( callback ){
+      win.setTimeout(callback, 1000 / 60);
+    };
+    if ('serviceWorker' in navigator) {
+      win.addEventListener('load', function() {
+        // 新开worker对内存及性能都有很大的负担，不影响页面加载，先raf异步一下
+        rAF(function(){
+
+          {{#if($icms && $icms.enableServiceWorker)}}
+          var currentPage = '//' + win.location.host + win.location.pathname;
+          navigator.serviceWorker.register(currentPage + '?wh_sw=true', {
+            scope: currentPage
+          }).then(function(registration){
+            console.log('register service worker success', registration);
+          }).catch(function(registration){
+            console.log('register service worker fail', registration);
+
+          });
+          {{else}}
+          //disable
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            if(registrations && registrations.length){
+              for(var registration in registrations) {
+                registrations[registration].unregister()
+              }
+            }
+          })
+          {{/if}}
+
+        });
+      });
+    }
+  })(window);
+</script>
+{{/if}}

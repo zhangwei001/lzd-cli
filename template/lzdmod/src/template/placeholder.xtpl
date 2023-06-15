@@ -1,0 +1,7 @@
+<ul class="placeholder-box">
+    {{#each(range(0,3))}}
+    <li class="flex-item placeholder-list" style="height: 130px">
+        <p class="placeholder-item" />
+    </li>
+    {{/each}}
+</ul>

@@ -1,0 +1,111 @@
+#!/usr/bin/env node
+const path = require('path');
+const fs = require('fs');
+const sync = require('child_process').spawnSync;
+
+const YELLOW='\033[1;33m';
+const END = '\033[0m';
+const cwd = process.cwd();
+
+function getCurBranch() {
+  const headerFile = path.join(cwd, '.git/HEAD');
+  const gitVersion = fs.existsSync(headerFile) && fs.readFileSync(headerFile, { encoding: 'utf8' }) || '';
+  const arr = gitVersion.split(/refs[\\\/]heads[\\\/]/g);
+  const v = arr && arr[1] || '';
+  return v.trim();
+}
+
+function syncPackageVersion() {
+  const file = path.join(cwd, 'package.json');
+  let pkg;
+  let branch;
+  const PATTERN = /^(\d+\.)?(\d+\.)?(\*|\d+)$/;
+
+  if (fs.existsSync(file)) {
+    pkg = fs.readFileSync(file);
+    pkg = JSON.parse(pkg);
+    branch = getCurBranch();
+    branch = branch.replace(/daily\/|publish\//, '');
+    const match = PATTERN.exec(branch);
+    if (match) {
+      pkg.version = branch;
+      fs.writeFileSync(file, JSON.stringify(pkg, null, 2), { encoding: 'utf8' });
+      sync('git', ['add', 'package.json']);
+      console.log(`sync branch version ${YELLOW}${branch}${END} to package.json`);
+    }
+  }
+}
+
+
+function runEslint() {
+  if(fs.existsSync(path.join(cwd,'.eslintrc'))){
+
+    //git diff --name-only
+    const result = sync('git',['diff','--cached','--name-only']);
+    let diffFile = result.stdout.toString().trim().split('\n');
+    diffFile = diffFile.filter( (item) => {
+      return path.extname(item) === '.js' || path.extname(item) === '.jsx'
+    });
+
+    if(diffFile.length){
+      console.log(`${YELLOW} Running eslint, please wait...${END}`);
+      const eslintResult =sync('./node_modules/eslint/bin/eslint.js', ['--quiet', '--ext', '.js,.jsx'].concat(diffFile),{stdio: 'inherit'});
+      if(eslintResult.status !== 0){
+        //has error
+        console.log(`Tips: run ${YELLOW}lzd eslint fix ${END}to excute eslint task`)
+        process.exit(1);
+      }else{
+        sync('git', ['add', '.']);
+      }
+    }
+  }else {
+    sync('lzd',['add','--eslint'])
+  }
+}
+
+function runPrettier() {
+  if (fs.existsSync(path.join(cwd,'.prettierrc'))){
+    //git diff --name-only
+    const result = sync('git',['diff','--cached','--name-only']);
+    const diffFile = result.stdout.toString().trim().split('\n');
+    const diffJSFile = diffFile.filter( (item) => {
+      return path.extname(item) === '.js' || path.extname(item) === '.jsx';
+    });
+
+    const diffCSSFile = diffFile.filter((item) => {
+      return path.extname(item) === '.scss';
+    });
+
+    if(diffJSFile.length){
+      console.log(`${YELLOW} Running prettier for js/jsx, please wait...${END}`);
+      sync('./node_modules/prettier-eslint-cli/dist/index.js', ['--write'].concat(diffJSFile),{stdio: 'inherit'});
+    }
+
+    if (diffCSSFile.length) {
+      console.log(`${YELLOW} Running prettier for scss, please wait...${END}`);
+      sync('./node_modules/prettier/bin/prettier.js', ['--parser', 'scss', '--write'].concat(diffCSSFile),{stdio: 'inherit'});
+      sync('git', ['add', '.']);
+    }
+  } else {
+    sync('lzd',['add','--eslint'],{stdio: 'inherit'});
+    sync('lzd',['prettier','init','--all','--eslint','--stylelint'],{stdio: 'inherit'});
+    sync('lzd',['prettier','run'],{stdio: 'inherit'})
+  }
+}
+
+function addLzdHook() {
+  try {
+    const lzdconfig = require(path.join(cwd, 'lzd.config.js'));
+    if (lzdconfig.tasks && lzdconfig.tasks.precommit) {
+      sync('lzd', ['precommit'],{stdio: 'inherit'})
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+
+addLzdHook();
+syncPackageVersion();
+runPrettier();
+runEslint();

@@ -1,0 +1,44 @@
+{{! 强制覆盖system变量，避免wormhole在preview环境下变为pre导致模块无法执行问题}}
+{{#if ($system)}}
+    {{ set ($system.env = 'dev') }}
+{{else}}
+    {{ set ($system = {env: 'dev'}) }}
+{{/if}}
+
+
+{{#if ($system.env === 'dev') }}
+
+    {{set ($moduleName = '<{%=group %}>-<{%= dirName %}>')}}
+
+    {{include('./weexTheme.xtpl')}}
+    {{include('./weexConfig.xtpl')}}
+
+    {{set ($uniqueModules = [{
+        name: $moduleName
+    }]) }}
+
+    {{set ($icms = {
+        spma: '0',
+        spmb: '0',
+        name: $moduleName,
+        title: $moduleName,
+        pageStatus: 'online',
+        components: [{
+        name: $moduleName,
+        rmcId: $moduleName,
+        zebraId: '我是spmc位_斑马线上会自动生成_本地请忽略',
+        moduleId: $moduleName,
+        meta: $weexTheme,
+        config: $weexConfig
+        }]
+    }) }}
+
+    {{ set($data['page'] = {}) }}
+    {{ set($data['page'][$moduleName] = $data.mock) }}
+
+{{/if}}
+
+{{ include('./solutionCfg.xtpl') }}
+{{ extend("solution://lzdsolution-config-solution/index-native.xtpl")}}
+
+{{ $http.headers.set('content-type', 'application/javascript') }}

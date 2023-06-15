@@ -1,0 +1,47 @@
+{{!extend solution }}
+
+{{#if ($http.url.query.wh_rax)}}
+
+{{! tell system include default solution(lazada5) }}
+{{#if (!$icms) }}
+{{ set($icms = {}) }}
+{{/if}}
+{{ set($icms.__useDefaultSolution = true)}}
+{{ extend("solution://lzdsolution-config-solution/index.xtpl")}}
+
+{{#block("body")}}
+
+<div class="<{%=dirName %}>" data-rax="true" data-mod-name="<{%=fileName %}>/weex/weex">
+    {{!vue-web is not SSR, don't change this if you don't have special requirements}}
+    {{{$utils.jsonToTextarea($root, "rax-comp-data")}}}
+</div>
+
+{{/block}}
+
+
+{{#block("foot")}}
+<script>
+  {{ set ( $zebraConfig = {} ) }}
+  {{ set($language = $http.dataLanguage || $icms["page-default-language"]) }}
+  {{#if ( (!$http.dataLanguage && $icms['page-languages'] && $icms['page-languages'].indexOf($http.language)>=0 ) || !$language )}}
+  {{ set($language = $http.language) }}
+  {{/if}}
+    {{ set($zebraConfig.isZcache = $http.url.query.wh_zcache === 'true') }}
+    {{ set($zebraConfig.language = $language) }}
+    {{ set($zebraConfig.spma = $icms.spma) }}
+    {{ set($zebraConfig.spmb = $icms.spmb) }}
+    {{ set($zebraConfig.regionID = $icms.regionID) }}
+    {{ set($zebraConfig.regional = $icms.regional) }}
+    {{ set ($zebraConfig.systemEnv = $system.env) }}
+    window.define && define('zebraConfig', function (require, exports, module) {
+      var config = {{{$utils.JSON.stringify($zebraConfig) || '{}'}}};
+      module.exports =config;
+    });
+</script>
+{{/block}}
+
+{{else}}
+
+{{include("./m/index")}}
+
+{{/if}}

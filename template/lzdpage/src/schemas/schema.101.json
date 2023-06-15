@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "title": "module config data",
+  "properties": {
+    "moduleConfig": {
+      "type": "object",
+      "title": "module config",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "module name"
+        }
+      }
+    }
+  }
+}

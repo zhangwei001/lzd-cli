@@ -1,0 +1,136 @@
+{
+  "type": "object",
+  "title": "schema",
+  "properties": {
+    "$config": {
+      "title": "Dynamic Config",
+      "type": "object",
+      "description": "",
+      "properties": {
+        "$dynamic": {
+          "title": "dynamic",
+          "type": "boolean",
+          "description": "",
+          "default": true
+        }
+      }
+    },
+    "test": {
+      "type": "object",
+      "title": "Test Field",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "This Is Test Field, Please Remove",
+          "x-format":"@datetime('YYYY-MM-DD HH:mm:ss')"
+        }
+      }
+    },
+    "mockData": {
+      "type": "array",
+      "title": "This Is Test Mock Data, Please Remove",
+      "x-dataType": "ITEM",
+      "items": {
+        "type": "object",
+        "title": "ITEMS",
+        "properties": {
+          "itemId": {
+            "title": "Item ID",
+            "type": "string",
+            "description": "Item ID",
+            "x-required": true
+          },
+          "itemUrl": {
+            "type": "string",
+            "title": "item Url",
+            "x-format": "@url()",
+            "x-required": true
+          },
+          "itemImg": {
+            "title": "item Image",
+            "type": "string",
+            "description": "Item Image",
+            "x-format": "@image()",
+            "x-required": true
+          },
+          "itemTitle": {
+            "title": "itemTitle",
+            "type": "string",
+            "description": "Item Name",
+            "x-i18n": true
+          },
+          "currency": {
+            "title": "Currency",
+            "type": "string",
+            "description": "Item Currency"
+          },
+          "isCurrencyLeft": {
+            "title": "currency sequencing",
+            "type": "integer",
+            "description": "currency sequencing, default is 1(left) 0(right)",
+            "enum": [1, 0],
+            "default": 1
+          },
+          "itemPrice": {
+            "title": "Item Price",
+            "type": "string",
+            "description": ""
+          },
+          "itemDiscountPrice": {
+            "title": "Discount Price",
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "maxItems": 15,
+      "minItems": 3
+    },
+    "$metaDesktop": {
+      "type": "object",
+      "title": "Theme setting(desktop)",
+      "properties": {
+        "bgColor": {
+          "type": "string",
+          "title": "Background Color",
+          "x-format": "@color()"
+        },
+        "bgImg": {
+          "type": "string",
+          "title": "Background Image",
+          "x-format": "@image()",
+          "description": "Size: 1920 x N (px) | Format: JPG or PNG | Max: 100k"
+        },
+        "marginTop": {
+          "type": "string",
+          "default": "8",
+          "title": "Top Margin",
+          "description": "Default 12 px"
+        }
+      }
+    },
+    "$meta": {
+      "type": "object",
+      "title": "Theme setting(mSite)",
+      "properties": {
+        "bgColor": {
+          "type": "string",
+          "title": "Background Color",
+          "x-format": "@color()"
+        },
+        "bgImg": {
+          "type": "string",
+          "title": "Background Image",
+          "x-format": "@image()",
+          "description": "Size: 750 x N (px) | Format: JPG or PNG | Max: 50k"
+        },
+        "marginTop": {
+          "type": "string",
+          "default": "8",
+          "title": "Top Margin",
+          "description": "Default 8 px"
+        }
+      }
+    }
+  }
+}

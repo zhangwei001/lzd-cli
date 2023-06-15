@@ -1,0 +1,14 @@
+{
+  "engine": "xtemplate",
+  "inputCharset": "utf-8",
+  "data": {
+    "mock": "./mock_data/data.json"
+  },
+  "i18n": {
+    "defaultLanguage": "en",
+    "enable": true,
+    "languages": [
+      "en"
+    ]
+  }
+}

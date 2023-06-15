@@ -1,0 +1,30 @@
+{{! tell system include default solution(lazada5) }}
+{{#if (!$icms) }}
+    {{ set($icms = {}) }}
+{{/if}}
+{{ set($icms.__useDefaultSolution = true)}}
+{{ extend("solution://lzdsolution-config-solution/index.xtpl")}}
+
+
+{{#block("body")}}
+{{! include js and css }}
+{{ require ("<{%=fileName %}>/m/index.css") }}
+{{ require ("<{%=fileName %}>/m/index.js") }}
+
+{{include("mod://<{%=fileName %}>/i18n.xtpl")}}
+
+<div class="<{%=dirName %}>">
+    <h1>{{$i18n("hello, my name is %s",$data.page["101"].moduleConfig.name)}} . I'm a mobile page.</h1>
+</div>
+{{/block}}
+
+{{#block("foot")}}
+<script>
+  (function () {
+    'use strict';
+    require(['<{%=fileName %}>/m/index'], function (Page) {
+      Page()
+    });
+  })();
+</script>
+{{/block}}

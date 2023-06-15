@@ -1,0 +1,28 @@
+{{! 可以 extend 不同的 solution }}
+{{ include('./solutionCfg.xtpl') }}
+
+{{ extend("solution://lzdsolution-config-solution/index.xtpl")}}
+
+{{#block("body")}}
+
+{{ set($data.mock.$zebra=$zebra) }}
+{{#if ($system)}}
+{{ set ($system.env = 'dev') }}
+{{else}}
+{{ set ($system = {env: 'dev'}) }}
+{{/if}}
+
+{{#if ($http.url.query.wh_rax)}}
+
+{{include('./weexConfig.xtpl')}}
+
+{{else}}
+
+<script>
+  window.g_config = window.g_config || {};
+  window.g_config.language = '{{$solution.generalConfig.detectLanguage}}';
+</script>
+{{/if}}
+
+{{ include ("mod://<{%=fileName %}>/index.xtpl", $data.mock, $root=$data.mock) }}
+{{/block}}

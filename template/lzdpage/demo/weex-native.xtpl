@@ -1,0 +1,2 @@
+{{ include ("./solutionCfg.xtpl") }}
+{{ include ("mod://<{%=fileName %}>/index-native.xtpl", $data.page, $root=$data.page) }}

@@ -1,0 +1,5 @@
+{{#if($http.url.query.wh_ttid === "@phone")}}
+{{include("./index.xtpl")}}
+{{else}}
+{{include("./pc/index")}}
+{{/if}}

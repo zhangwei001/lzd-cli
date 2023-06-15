@@ -1,0 +1,13 @@
+.idea
+*.iml
+out
+gen
+node_modules
+test
+coverage
+npm-debug.log
+build
+.travis.yml
+*.swp
+.sass-cache
+.DS_Store

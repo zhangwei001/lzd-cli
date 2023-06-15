@@ -1,0 +1,17 @@
+{{! 加载对应的 js 和 css 资源 }}
+{{ require ([
+  "<{%=fileName %}>/pc/index.css",
+  "@ali/lzdmod-act-style/index.css"
+]) }}
+
+{{include("mod://<{%=fileName %}>/i18n.xtpl")}}
+
+{{ include("mod://<{%=fileName %}>/createStyle.xtpl", {themeData: $metaDesktop, terminal:"desktop"}) }}
+
+<div class="<{%=dirName %}> responsive-box" data-mod-name="<{%=fileName %}>/pc/index">
+    <div class="J-temp-dom" style="padding: 10px;">{{$i18n("hello, my name is %s",test.name)}} . I'm a desktop module.</div>
+    <div class="icms-demo-inner flex-grid-col3 clearfix J-dynamic-box">
+        {{include("../template/placeholder.xtpl")}}
+        {{include("../template/index.xtpl", {terminal: "desktop"})}}
+    </div>
+</div>

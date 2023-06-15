@@ -1,0 +1,23 @@
+
+{{#if ($moduleId)}}
+{{ set(moduleScope = "#J_" + $moduleId) }}
+{{/if}}
+{{! moduleScope is css scope, create by ICMS}}
+<style>
+    {{#if (themeData)}}
+{{moduleScope}} .<{%=dirName %}>{
+  {{#if (themeData.bgColor)}}
+    background-color: {{themeData.bgColor}};
+  {{/if}}
+  {{#if (themeData.bgImg)}}
+    background-image: url({{themeData.bgImg}});
+  {{/if}}
+  {{#if (themeData.marginTop)}}
+    margin-top: {{themeData.marginTop.replace('px', '')}}px;
+  {{else}}
+    margin-top: {{terminal === "desktop" ? '12' : '8'}}px;
+  {{/if}}
+}
+    {{/if}}
+</style>
+

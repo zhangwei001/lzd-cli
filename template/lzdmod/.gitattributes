@@ -1,0 +1,7 @@
+src/seed.js -diff
+src/seed.json -diff
+demo/**/* -diff
+src/i18n.js -diff
+src/i18n.xtpl -diff
+src/i18n-native.js -diff
+src/weex/weex.js -diff

@@ -1,0 +1,46 @@
+var rax = require('rax') || {};
+
+{{ $http.headers.set('content-type', 'application/javascript') }}
+
+{{ seed("mod://<{%=fileName %}>/seed.json") }}
+{{ require("mod://@ali/mui-weex-utils/index-native.js") }}
+{{ require("mod://@ali/lzdmod-weex-nuke/index.js") }}
+{{ require("mod://@ali/mui-i18n/index-native.js") }}
+{{ require("mod://@ali/mui-i18n/format.js") }}
+{{ require("mod://<{%=fileName %}>/i18n-native.js") }}
+{{ placeholder('native', needCalculate=true) }}
+
+
+
+{{ set ( $zebraConfig = $utils._4.cloneDeep($icms) ) }}
+
+
+{{ set($language = $http.dataLanguage || $icms["page-default-language"]) }}
+{{#if ( (!$http.dataLanguage && $icms['page-languages'] && $icms['page-languages'].indexOf($http.language)>=0 ) || !$language )}}
+{{ set($language = $http.language) }}
+{{/if}}
+
+{{ set($zebraConfig.isZcache = $http.url.query.wh_zcache === 'true') }}
+{{ set($zebraConfig.language = $language) }}
+{{ set($zebraConfig.spma = $icms.spma) }}
+{{ set($zebraConfig.spmb = $icms.spmb) }}
+{{ set($zebraConfig.regionID = $icms.regionID) }}
+{{ set($zebraConfig.regional = $icms.regional) }}
+{{ set ($zebraConfig.systemEnv = $system.env) }}
+
+{{ set($zebraConfig.modules = []) }}
+var config = {{{$utils.JSON.stringify($zebraConfig) || '{}'}}};
+var $data = {{{$utils.JSON.stringify($data) || '{}'}}};
+
+define('zebraConfig', function (require, exports, module) {
+config.data = $data;
+module.exports = config;
+});
+
+
+var _moduleContent = require('<{%=fileName %}>/weex/weex');
+rax.render(
+    rax.createElement(_moduleContent, {
+        data: $data
+    })
+);

@@ -1,0 +1,21 @@
+{{! include solution config}}
+{{ include('./solutionCfg.xtpl') }}
+
+{{! 可以 extend 不同的 solution }}
+{{ extend("solution://lzdsolution-config-solution/index-pc.xtpl")}}
+
+{{#block("body")}}
+  {{ set($data.mock.$zebra=$zebra) }}
+  {{#if ($system)}}
+  {{ set ($system.env = 'dev') }}
+  {{else}}
+  {{ set ($system = {env: 'dev'}) }}
+  {{/if}}
+
+
+<script>
+  window.g_config = window.g_config || {};
+  window.g_config.language = '{{$solution.generalConfig.detectLanguage}}';
+</script>
+  {{ include ("mod://<{%=fileName %}>/pc/index.xtpl", $data.mock, $root=$data.mock) }}
+{{/block}}
